@@ -1,19 +1,18 @@
-version: "2"
 services:
     consul:
         command: agent -server -bootstrap-expect=1 -client=0.0.0.0
-        image: consul:latest
+        image: hashicorp/consul:latest
 
     registrator:
         command: -internal consul://consul:8500
-        image: gliderlabs/registrator:latest
+        image: metabrainz/serviceregistrator:latest
         links:
             - consul
         volumes:
             - "/var/run/docker.sock:/tmp/docker.sock"
 
     cadvisor:
-        image: google/cadvisor:latest
+        image: gcr.io/cadvisor/cadvisor:latest
         volumes:
             - "/:/rootfs:ro"
             - "/var/run:/var/run:rw"
